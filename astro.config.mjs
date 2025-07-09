@@ -13,7 +13,7 @@ import remarkCodeTitles from 'remark-code-titles'
 import decapCmsOauth from "astro-decap-cms-oauth";
 
 export default defineConfig({
-  output: 'hybrid',
+  output: 'server',
   adapter: node({ mode: 'standalone' }), // <-- Y AQUÍ
   markdown: {
     syntaxHighlight: 'shiki',
