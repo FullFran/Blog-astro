@@ -6,15 +6,15 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import { defineConfig } from "astro/config";
 import markdoc from "@astrojs/markdoc";
-import node from "@astrojs/node"; // <-- IMPORTA AQUÍ
+import node from "@astrojs/node"; // <--- IMPORTANTE
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import remarkCodeTitles from 'remark-code-titles'
 import decapCmsOauth from "astro-decap-cms-oauth";
 
 export default defineConfig({
-  output: 'server',
-  adapter: node({ mode: 'standalone' }), // <-- Y AQUÍ
+  output: 'server', // <---- Cambia esto
+  adapter: node({ mode: 'standalone' }), // <--- Deja esto
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
