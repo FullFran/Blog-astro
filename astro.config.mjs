@@ -6,17 +6,15 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import { defineConfig } from "astro/config";
 import markdoc from "@astrojs/markdoc";
++import node from "@astrojs/node";  // <--- FALTA ESTA LÍNEA
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import remarkCodeTitles from 'remark-code-titles'
 import decapCmsOauth from "astro-decap-cms-oauth";
 
-// Full Astro Configuration API Documentation:
-// https://docs.astro.build/reference/configuration-reference
-
-// https://astro.build/config
-export default defineConfig( /** @type {import('astro').AstroUserConfig} */{
+export default defineConfig({
   output: 'hybrid',
++ adapter: node({ mode: 'standalone' }), // <--- Y ESTA
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
