@@ -1,0 +1,17 @@
+---
+import { SITE } from '$/config'
+import ModeLabel from './ModeLabel.svelte'
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+    <nav class="nav text-center text-sm text-gray-600 dark:text-gray-400 flex flex-col md:flex-row items-center justify-center gap-2">
+        <div>
+            &copy; {year} {SITE.name}. 
+        </div>
+    </nav>
+</footer>
+<style>
+    .footer {
+        @apply py-6 border-t bg-transparent;
+    }
+</style>

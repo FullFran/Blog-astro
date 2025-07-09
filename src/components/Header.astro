@@ -1,0 +1,95 @@
+---
+import { NAV_ITEMS } from '$/config';
+const isActive = (p:string) => Astro.url.pathname === p;
+---
+
+<header id="site-header" class="sticky top-0 z-50 border-b bg-white/80 dark:bg-gray-950/80 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6">
+
+    <!-- Hamburguesa -->
+    <button id="menu-btn"
+      class="flex h-10 w-10 flex-col items-center justify-center gap-[6px] sm:hidden"
+      aria-label="Menú" aria-expanded="false" type="button">
+      <span class="burger-line" /><span class="burger-line" /><span class="burger-line" />
+    </button>
+
+    <!-- Navegación desktop -->
+    <ul class="hidden gap-8 sm:flex">
+      {Object.entries(NAV_ITEMS).map(([k,i]) => (
+        <li key={k}>
+          <a href={i.path}
+             class={`block rounded px-2 py-1 text-base font-medium transition
+                      ${isActive(i.path)
+                        ? 'text-cyan-600 border-b-2 border-cyan-500'
+                        : 'text-cyan-700 dark:text-cyan-300 border-b-2 border-transparent'}
+                      hover:bg-cyan-50 dark:hover:bg-cyan-900/40`}>
+            {i.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <a href="/contact"
+       class="hidden rounded-full bg-cyan-600 px-5 py-2 text-sm font-bold uppercase tracking-wider
+              text-white shadow hover:bg-cyan-700 sm:inline-block">
+      Contactar
+    </a>
+  </div>
+
+  <!-- Panel móvil dentro del header -->
+  <div id="mobile-panel"
+       class="absolute inset-x-0 top-full -translate-y-4 opacity-0 pointer-events-none
+              flex flex-col gap-4 bg-white p-6 pb-10 shadow-lg dark:bg-gray-950
+              transition-all duration-300 sm:hidden">
+
+    {Object.entries(NAV_ITEMS).map(([k,i]) => (
+      <a key={k} href={i.path}
+         class="rounded py-2 text-lg font-semibold text-cyan-700 dark:text-cyan-300
+                hover:bg-cyan-50 dark:hover:bg-cyan-900/40">
+        {i.title}
+      </a>
+    ))}
+    <a href="/contact"
+       class="mt-2 rounded-full bg-cyan-600 px-6 py-2 text-white shadow hover:bg-cyan-700">
+      Contactar
+    </a>
+  </div>
+</header>
+
+<style>
+  /* animación hamburguesa */
+  .burger-line {
+    @apply block h-[2px] w-6 bg-cyan-600 dark:bg-cyan-300 transition-transform;
+  }
+  #site-header[data-open="true"] #menu-btn .burger-line:nth-child(1){@apply translate-y-[7px] rotate-45;}
+  #site-header[data-open="true"] #menu-btn .burger-line:nth-child(2){@apply opacity-0;}
+  #site-header[data-open="true"] #menu-btn .burger-line:nth-child(3){@apply -translate-y-[7px] -rotate-45;}
+
+  /* panel visible */
+  #site-header[data-open="true"] #mobile-panel{
+    @apply translate-y-0 opacity-100 pointer-events-auto;
+  }
+</style>
+
+<script is:inline>
+  function initHeader(){
+    const header = document.getElementById('site-header');
+    const btn    = document.getElementById('menu-btn');
+    if(!header||!btn) return;
+
+    btn.onclick = ()=> {
+      const open = header.dataset.open === 'true';
+      header.dataset.open = String(!open);
+      btn.setAttribute('aria-expanded', String(!open));
+      document.body.style.overflow = !open ? 'hidden' : '';
+    };
+    // Al iniciar navegación cerramos panel
+    document.addEventListener('astro:before-page-load', () => {
+      header.dataset.open = 'false';
+      btn.setAttribute('aria-expanded','false');
+      document.body.style.overflow = '';
+    });
+  }
+  initHeader();                  // primera carga
+  document.addEventListener('astro:page-load', initHeader); // tras cada navegación
+</script>

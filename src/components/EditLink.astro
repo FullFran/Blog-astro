@@ -1,0 +1,23 @@
+---
+import { Icon } from 'astro-icon'
+
+interface Props {
+    label?: string,
+    editUrl: string
+}
+
+const { editUrl, label = 'Editar esta página' } = Astro.props
+---
+
+{editUrl && (
+    <a
+        href={editUrl}
+        title={label}
+        class="inline-flex items-center gap-1 font-light text-cyan-600 dark:text-cyan-300 text-sm hover:underline hover:text-cyan-800 dark:hover:text-cyan-200 transition"
+        target="_blank"
+        rel="noopener"
+    >
+        <Icon class="w-4 h-4" pack="mdi" name="pencil" />
+        {label}
+    </a>
+)}

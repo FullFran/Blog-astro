@@ -1,0 +1,101 @@
+@tailwind base;
+
+@layer base {
+    html {
+        font-family: 'Inter', 'SF Pro Display', 'Roboto', 'Segoe UI', 'sans-serif';
+        background: linear-gradient(120deg, #0f172a 0%, #030712 100%);
+        color: #d1e9ff;
+    }
+    html.dark {
+        @apply text-gray-100;
+        background: linear-gradient(120deg, #020617 0%, #1e293b 100%);
+        header, footer {
+            @apply text-gray-400 border-gray-700;
+        }
+        strong {
+            @apply text-cyan-400;
+        }
+        a {
+            @apply text-cyan-300 hover:text-cyan-400 transition;
+        }
+    }
+    body {
+        @apply bg-transparent;
+        min-height: 100vh;
+        font-size: 1rem;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-bold tracking-tight text-cyan-500 dark:text-cyan-400;
+        letter-spacing: -0.01em;
+    }
+    strong {
+        @apply text-cyan-600 dark:text-cyan-400;
+    }
+    a {
+        @apply text-cyan-600 dark:text-cyan-300 underline underline-offset-2 transition;
+    }
+    code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        @apply text-base px-1 rounded bg-slate-800/60 dark:bg-slate-700/60 text-cyan-400;
+    }
+    pre code {
+        @apply bg-transparent px-0 text-base;
+    }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+.ink-h {
+    @apply inline-block text-sm font-bold uppercase drop-shadow-lg py-4 tracking-wider opacity-60 dark:opacity-80 text-cyan-500 dark:text-cyan-300;
+}
+
+::-webkit-scrollbar {
+    @apply w-2;
+}
+::-webkit-scrollbar-track {
+    background: #111826;
+}
+::-webkit-scrollbar-thumb {
+    @apply bg-cyan-500 dark:bg-cyan-600 bg-opacity-50 dark:bg-opacity-70 shadow-xl rounded-full;
+}
+
+/** Code block **/
+.astro-code {
+    @apply relative shadow-lg shadow-cyan-500/10 dark:shadow-cyan-400/10 mt-0 rounded-lg overflow-x-auto;
+    border: 1px solid #164e63;
+    background: #020617;
+}
+.remark-code-title {
+    @apply inline-block relative top-4 px-2 pt-1 pb-5 text-sm text-cyan-400 dark:text-cyan-300 bg-gradient-to-br from-cyan-700/30 dark:from-cyan-900/30 to-slate-900/30 dark:to-cyan-800/30 rounded-t-md shadow-sm;
+}
+
+/** Shiki theme - Light/Dark mode **/
+
+:root {
+    --astro-code-color-text: #0a192f;
+    --astro-code-color-background: #f8fafc;
+    --astro-code-token-constant: #06b6d4;
+    --astro-code-token-string: #0369a1;
+    --astro-code-token-comment: #64748b;
+    --astro-code-token-keyword: #0ea5e9;
+    --astro-code-token-parameter: #0f172a;
+    --astro-code-token-function: #14b8a6;
+    --astro-code-token-string-expression: #0ea5e9;
+    --astro-code-token-punctuation: #0f172a;
+    --astro-code-token-link: #0ea5e9;
+}
+
+html.dark {
+    --astro-code-color-text: #d1e9ff;
+    --astro-code-color-background: #0f172a;
+    --astro-code-token-constant: #67e8f9;
+    --astro-code-token-string: #38bdf8;
+    --astro-code-token-comment: #64748b;
+    --astro-code-token-keyword: #0ea5e9;
+    --astro-code-token-parameter: #d1e9ff;
+    --astro-code-token-function: #67e8f9;
+    --astro-code-token-string-expression: #22d3ee;
+    --astro-code-token-punctuation: #d1e9ff;
+    --astro-code-token-link: #67e8f9;
+}

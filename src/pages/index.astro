@@ -1,0 +1,111 @@
+---
+export const prerender = true
+
+import { getCollection } from 'astro:content'
+import DefaultPageLayout from '../layouts/default.astro'
+import PostPreviewList from '../components/PostPreviewList.astro'
+
+const title = 'Fran Olmedo'
+const description = 'Founder @ BlakIA • AI architect • Autor & speaker'
+
+const posts = (await getCollection('blog')).slice(0,3)
+---
+
+<DefaultPageLayout content={{ title, description }} showPageHeader={false}>
+
+  <!-- HERO ------------------------------------------------>
+  <section class="my-10 flex flex-col items-center gap-6 md:flex-row md:items-start">
+    <div class="relative shrink-0">
+      <div class="halo"></div>
+      <img src="https://avatars.githubusercontent.com/u/128989182?s=280"
+           alt="Fran Olmedo"
+           class="h-40 w-40 md:h-52 md:w-52 rounded-full object-cover ring-4 ring-cyan-400/40">
+    </div>
+
+    <div class="max-w-xl text-center md:text-left space-y-4">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-cyan-700 dark:text-cyan-300">
+        ¡Hola! Soy Fran Olmedo
+      </h1>
+      <p class="text-lg leading-relaxed text-gray-700 dark:text-gray-300">
+        Físico y fundador de <strong>BlakIA</strong>. Diseñamos soluciones
+        de IA que automatizan procesos y potencian negocios.<br>
+        Aquí comparto aprendizajes de IA, automatización y crecimiento personal.
+      </p>
+    </div>
+  </section>
+
+<!-- BENTO GRID 4×2 -------------------------------------->
+<section
+  class="grid gap-4 md:grid-cols-4 auto-rows-[170px] md:auto-rows-[210px] font-medium">
+
+  <!-- BlakIA (3 col) -->
+  <a href="https://blakia.es"
+     class="tile border-cyan-500 md:col-span-3">
+    <h3>BlakIA</h3>
+    <p>Startup donde desarrollamos soluciones de IA aplicadas a logística, salud y energía.</p>
+  </a>
+
+  <!-- Conóceme (1 col) -->
+  <a href="/about"
+     class="tile border-purple-500 md:col-span-1">
+    <h3>Sobre mí</h3>
+    <p>Mi trayectoria, valores y el camino que me llevó a fundar BlakIA.</p>
+  </a>
+
+  <!-- Blog (2 col) -->
+  <a href="/blog"
+     class="tile border-emerald-500 md:col-span-2">
+    <h3>Blog</h3>
+    <p>Guías y reflexiones sobre IA, automatización y productividad.</p>
+  </a>
+
+  <!-- Contacto (2 col) -->
+  <a href="mailto:hola@blakia.es"
+     class="tile border-fuchsia-500 md:col-span-2">
+    <h3>Contacto</h3>
+    <p>¿Proyecto en mente? Escríbeme y conversemos.</p>
+  </a>
+</section>
+
+<style>
+  .tile{
+    @apply relative flex flex-col justify-between rounded-2xl border-2 p-6 shadow
+           transition-transform duration-300 hover:-translate-y-[2px] hover:shadow-lg
+           backdrop-blur-md bg-white/40 dark:bg-gray-900/40 text-gray-900 dark:text-gray-50;
+  }
+  .tile h3{ @apply text-xl font-semibold mb-1; }
+  .tile p { @apply text-sm leading-relaxed; }
+</style>
+
+
+  <!-- POSTS RECIENTES ------------------------------------>
+  <h2 class="mt-12 mb-4 text-2xl font-bold text-cyan-600 dark:text-cyan-300">
+    Entradas recientes
+  </h2>
+  <PostPreviewList {posts} />
+  <div class="mt-6 flex justify-center">
+    <a href="/blog" class="underline-offset-4 hover:underline text-cyan-700 dark:text-cyan-300">
+      Ver todas las entradas →
+    </a>
+  </div>
+
+</DefaultPageLayout>
+
+<style>
+  /* halo circular difuso */
+  .halo{
+    position:absolute; inset:0;
+    border-radius:9999px;
+    background:radial-gradient(#06b6d4aa, #06b6d400 60%);
+    filter:blur(40px);
+    z-index:-1;
+  }
+
+  /* base para cada tile */
+  .tile{
+    @apply relative flex flex-col justify-between rounded-2xl p-6 text-white
+           shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
+  .tile h3{ @apply text-2xl font-bold mb-2; }
+  .tile p{  @apply text-sm leading-relaxed; }
+</style>

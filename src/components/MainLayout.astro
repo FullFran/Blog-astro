@@ -1,0 +1,26 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import Nav from './Nav.astro';
+import Portal from './Portal.astro';
+import SearchModal from './SearchModal.svelte'
+---
+
+<BaseLayout>
+    <Header />
+    <Nav />
+    <main class="content px-2 md:px-0 py-6 min-h-[580px]">
+        <slot />
+    </main>
+    <Footer />
+    <Portal>
+        <SearchModal client:load />
+    </Portal>
+</BaseLayout>
+
+<style>
+    .content {
+        @apply min-h-[580px] w-full max-w-4xl mx-auto;
+    }
+</style>

@@ -1,0 +1,41 @@
+---
+import { getMonthName } from '$/utils'
+import { USE_MEDIA_THUMBNAIL } from '$/config'
+const { post } = Astro.props
+---
+<article class="post-preview flex gap-6 items-start">
+    <div class="sm:w-20 md:w-32">
+        <div class="post-preview__date flex flex-col w-full text-center">
+            <span class="post-preview__date__day text-5xl md:text-6xl font-bold text-cyan-400 dark:text-cyan-300">
+                { new Date(post.date).getDate() }
+            </span>
+            <span class="post-preview__date__month-n-year text-cyan-700 dark:text-cyan-200 text-base">
+                { `${getMonthName(post.date)} ${new Date(post.date).getFullYear()}` }
+            </span>
+        </div>
+    </div>
+    <div class={`flex-1 ${USE_MEDIA_THUMBNAIL && post.thumbnail ? 'flex flex-row gap-4' : ''}`}>
+        {USE_MEDIA_THUMBNAIL && post.thumbnail && (
+            <img class="post-preview__media w-32 md:w-48 rounded-lg shadow-lg shadow-cyan-200/30 dark:shadow-cyan-800/40" src={post.thumbnail} alt="Miniatura del contenido" />
+        )}
+        <div class="flex flex-col mb-2 flex-1 min-w-0">
+            <h4 class="post-preview__title text-2xl font-bold text-cyan-700 dark:text-cyan-300 hover:underline truncate">
+                <a href={post.url} title={post.title} target="_blank" rel="noopener">{post.title}</a>
+            </h4>
+            <div class="text-base text-gray-700 dark:text-gray-300">
+                <strong>{post.host}</strong>
+                {post.participants.length > 0 && <span> con </span>}
+                {post.participants.length > 0 && (
+                    <span class="italic">{post.participants.join(', ')}</span>
+                )}
+            </div>
+            <p class="post-preview__desc text-lg leading-6 text-gray-900 dark:text-white mt-1 line-clamp-2 hyphens-auto">
+                {post.description}
+            </p>
+        </div>
+    </div>
+</article>
+
+<style>
+    /* Custom styles only if necesitas override extra */
+</style>

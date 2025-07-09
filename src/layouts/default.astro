@@ -1,0 +1,40 @@
+---
+import { SITE } from '$/config'
+import BaseHead from '$/components/BaseHead.astro';
+import MainLayout from '$/components/MainLayout.astro';
+
+const { content, showPageHeader = true } = Astro.props
+---
+<!doctype html>
+<html lang="es" class="dark">
+    <head>
+        <BaseHead 
+            title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } 
+            description={ content.description } 
+            image={SITE.image}
+        />
+    </head>
+    <body>
+        <MainLayout>
+            {showPageHeader && (
+                <div class="page__header">
+                    <h1 class="page__title">{content.title}</h1>
+                    {content.description && <h5 class="page__desc">{content.description}</h5>}
+                </div>
+            )}
+            <slot />
+        </MainLayout>
+    </body>
+</html>
+<style>
+    .page__header {
+        @apply py-4 mb-1;
+    }
+    .page__title {
+        @apply text-5xl font-extrabold text-cyan-600 dark:text-cyan-300;
+        /* Puedes subir el cyan: text-cyan-700/dark:text-cyan-400 si prefieres aún más intensidad */
+    }
+    .page__desc {
+        @apply text-gray-600 dark:text-gray-300 text-xl font-light mt-2;
+    }
+</style>

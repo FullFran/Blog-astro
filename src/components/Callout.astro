@@ -1,0 +1,38 @@
+---
+import { Icon } from 'astro-icon'
+export type CalloutType = 'check' | 'error' | 'note' | 'warning'
+interface Props {
+    title: string
+    type: CalloutType
+}
+
+const ICON_MAP: Record<CalloutType, string> = {
+    'check': 'check-circle',
+    'error': 'close-circle',
+    'note': 'note',
+    'warning': 'warning-circle'
+}
+
+const COLOR_MAP: Record<CalloutType, string> = {
+    'check': 'text-cyan-700 dark:text-cyan-400',
+    'error': 'text-red-700 dark:text-red-400',
+    'note': 'text-slate-700 dark:text-slate-200',
+    'warning': 'text-orange-700 dark:text-orange-400'
+}
+
+const BG_MAP: Record<CalloutType, string> = {
+    'check': 'bg-cyan-50 dark:bg-cyan-900/30',
+    'error': 'bg-red-50 dark:bg-red-900/30',
+    'note': 'bg-slate-50 dark:bg-slate-800/60',
+    'warning': 'bg-orange-50 dark:bg-orange-900/30'
+}
+
+const { title, type = 'note' } = Astro.props
+---
+<div class={`callout flex gap-3 w-full ${BG_MAP[type]} my-2 px-5 py-3 rounded-xl shadow-cyan-100/40 dark:shadow-cyan-700/20 shadow-sm items-start`}>
+    <Icon class={`w-7 h-7 mt-1 shrink-0 ${COLOR_MAP[type]}`} pack="mdi" name={ICON_MAP[type]} />
+    <div class="copy flex flex-col">
+        <h3 class={`title font-bold text-base mb-1 ${COLOR_MAP[type]}`}>{title}</h3>
+        <slot/>
+    </div>
+</div>
