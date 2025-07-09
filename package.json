@@ -12,7 +12,8 @@
     "check:type": "tsc --project tsconfig.json --pretty --noEmit",
     "lint": "biome lint src",
     "format": "biome format src --write",
-    "cz": "cz"
+    "cz": "cz",
+    "start": "astro preview --host --port ${PORT:-8080}"     
   },
   "devDependencies": {
     "@astrojs/mdx": "^2.0.0",
