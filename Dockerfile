@@ -1,19 +1,27 @@
-# 1. Imagen ligera de Node
-FROM node:18-alpine
+# ---------- 1️⃣ Build stage ----------
+FROM node:18-alpine AS builder
 
-# 2. Directorio de trabajo
 WORKDIR /app
 
-# 3. Instala PNPM y dependencias
+# Usa pnpm (instala a través de corepack)
+RUN corepack enable && corepack prepare pnpm@9 --activate
+
 COPY package.json pnpm-lock.yaml ./
-RUN npm i -g pnpm && pnpm i --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
-# 4. Copia el código y compila
 COPY . .
-RUN pnpm run build      # genera /dist
+RUN pnpm run build     # genera /app/dist
 
-# 5. Expone el puerto que servirás
+# ---------- 2️⃣ Runtime stage ----------
+FROM node:18-alpine
+
+WORKDIR /srv
+
+# Servidor estático super-ligero (serve ≈ 6 MB)
+RUN npm i -g serve
+
+# Copiamos solo el resultado compilado
+COPY --from=builder /app/dist ./dist
+
 EXPOSE 8080
-
-# 6. Arranca el servidor estático
-CMD ["pnpm", "exec", "astro", "preview", "--host", "--port", "8080"]
+CMD ["serve", "-s", "dist", "-l", "8080"]
