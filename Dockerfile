@@ -1,27 +1,20 @@
-# ---------- 1️⃣ Build stage ----------
-FROM node:18-alpine AS builder
+FROM node:20
 
+# Crea directorio app
 WORKDIR /app
 
-# Usa pnpm (instala a través de corepack)
-RUN corepack enable && corepack prepare pnpm@9 --activate
-
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
-
+# Copia los archivos necesarios
+COPY package.json package-lock.json* pnpm-lock.yaml* ./
 COPY . .
-RUN pnpm run build     # genera /app/dist
 
-# ---------- 2️⃣ Runtime stage ----------
-FROM node:18-alpine
+# Instala dependencias
+RUN npm install -g pnpm && pnpm install
 
-WORKDIR /srv
+# Compila el proyecto
+RUN pnpm run build
 
-# Servidor estático super-ligero (serve ≈ 6 MB)
-RUN npm i -g serve
+# Expone el puerto de Astro
+EXPOSE 3000
 
-# Copiamos solo el resultado compilado
-COPY --from=builder /app/dist ./dist
-
-EXPOSE 8080
-CMD ["serve", "-s", "dist", "-l", "8080"]
+# Comando para arrancar el servidor Astro
+CMD ["pnpm", "run", "preview"]
